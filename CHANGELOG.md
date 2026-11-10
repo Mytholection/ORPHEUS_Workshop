@@ -937,3 +937,11 @@ This log records tested changes and their acceptance status. Entries are grouped
 - Used the exact owner report carrying the matching volley state to confirm projectile aliases. Confirmations, including the no-report fallback, wait for the acknowledged body and possession. Explosion release waits for the projectile create acknowledgement. Body replacement stops the old flight and reliably retires its aliases without an explosion.
 - The encrypted Practice Range fixture covers Helix's 40 direct and 80 splash damage, an unaffected ally in the flight path, duplicate input and lost confirmation recovery. The stock Soldier body still stops at the authored effect action at `01C7`, node `74`. Observer launch, scripted movement, healing fields and original-client presentation remain open.
 - Passed 320 public Rust tests, 60 tagged base-runtime checks and 55 tagged enriched-runtime checks. The untagged bundle also passed the owner startup regression. Cargo formatting, Clippy, documentation links, Git diff checks and isolated release server startup and shutdown passed.
+
+### 2026-11-09
+
+#### Public Rust checks without the prepared runtime
+
+- Read the networked volley fixture's statescript codec table when the test runs, from `ORPHEUS_RUNTIME_DIR` or the checkout's `data` directory, instead of embedding it at compile time. The public checkout has no `statescript_codecs_174.json`, so since `9b9cf8b` its test target did not compile and the public Clippy step failed.
+- Marked the authored projectile lease test and the unsupported projectile mode test with the existing codec-table ignore reason. They run with `cargo test --locked --lib -- --ignored` when the prepared runtime is available. This change did not run them because no prepared runtime was available.
+- Passed 318 public Rust tests with 63 ignored on stable Rust 1.99.1. Cargo formatting, Clippy and Git diff checks passed. The Python and dashboard source checks were unchanged and passed. No production code changed.
