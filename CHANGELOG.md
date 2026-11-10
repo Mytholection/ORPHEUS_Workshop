@@ -945,3 +945,12 @@ This log records tested changes and their acceptance status. Entries are grouped
 - Read the networked volley fixture's statescript codec table when the test runs, from `ORPHEUS_RUNTIME_DIR` or the checkout's `data` directory, instead of embedding it at compile time. The public checkout has no `statescript_codecs_174.json`, so since `9b9cf8b` its test target did not compile and the public Clippy step failed.
 - Marked the authored projectile lease test and the unsupported projectile mode test with the existing codec-table ignore reason. They run with `cargo test --locked --lib -- --ignored` when the prepared runtime is available. This change did not run them because no prepared runtime was available.
 - Passed 318 public Rust tests with 63 ignored on stable Rust 1.99.1. Cargo formatting, Clippy and Git diff checks passed. The Python and dashboard source checks were unchanged and passed. No production code changed.
+
+### 2026-11-10
+
+#### Custom game and Workshop script messages
+
+- Added `custom_game_proto`, Rust types for the 22 messages and 5 enums of the client's embedded `CustomGame.proto`: custom game options, rulesets, teams and hero settings, and Workshop scripts with their rules, targets, conditions, actions, operands, variables, subroutines, setting values, entities and extensions. Optional fields keep presence and repeated scalars stay unpacked, so decoded messages encode back to the same bytes. What a catalog index or value identifier means is not covered yet.
+- Added `tools/extract_custom_game_descriptor.py`, which cuts the serialized descriptor out of a local 104319 client. Its output is client data and stays outside the repository.
+- Five public Rust tests cover hand-written wire bytes, unpacked repeated scalars, presence of zero values, a whole custom game round trip, and unknown or damaged input. An ignored test fills every field of every message from the extracted descriptor and compares the bytes; it passed locally against the 104319 client, and a separate local comparison matched all 110 field types and labels. Four Python tests cover the extraction tool with a synthetic descriptor.
+- No server path reads these messages yet. The lobby messages that carry them and original-client behavior are unverified.

@@ -27,6 +27,7 @@ pub mod contact_round;
 pub mod contact_solver;
 pub mod contact_triangle;
 pub mod contact_world;
+pub mod custom_game_proto;
 pub mod game_body;
 pub mod game_bots;
 pub mod game_clock;

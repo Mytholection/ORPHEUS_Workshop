@@ -66,7 +66,8 @@ jobs:
             'test_script_membership.py',
             'test_script_raycast.py',
             'test_extract_game_graphs.py',
-            'test_extract_raycast_metadata.py'
+            'test_extract_raycast_metadata.py',
+            'test_extract_custom_game_descriptor.py'
           )
           foreach ($pattern in $patterns) {
             python -B -m unittest discover -s tests -p $pattern
