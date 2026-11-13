@@ -606,6 +606,38 @@ def indexed_lvalue(cfg) -> tuple[tuple[int, int], int] | None:
     return (target, index) if index >= 0 else None
 
 
+# Workshop variables (104319 interpreter 1B81210, case 0x48). An entity has 128 of them. The opcode
+# limits the index to 0..127 and names the entity variable `index - 129` as an unsigned 16-bit identifier.
+WORKSHOP_VARIABLE = 72
+WORKSHOP_VARIABLE_SLOTS = 128
+
+
+def workshop_variable(index: int) -> int:
+    """The entity variable identifier of a Workshop variable index: 0xFF7F for 0, 0xFFFE for 127."""
+    return (min(max(index, 0), WORKSHOP_VARIABLE_SLOTS - 1) - 129) & 0xFFFF
+
+
+def workshop_lvalue(cfg, ctx: Context) -> int | None:
+    """The entity variable an out var names when its expression ends with WORKSHOP_VARIABLE.
+
+    In lvalue mode the opcode pops its index and, with only the entity left on the stack, records the
+    identifier instead of reading the variable. The entity itself is not part of the recorded target;
+    the node that owns the out var supplies it. None for any other out var.
+    """
+    if not isinstance(cfg, dict) or cfg.get("$") not in EXPRESSIONS:
+        return None
+    code, _, _ = _parts(cfg)
+    pc = 0
+    while pc < len(code) - 2:  # the opcode must sit on an instruction boundary, not in an operand
+        if type(code[pc]) is not int:
+            return None
+        pc += 1 + OPERANDS.get(code[pc], 0)
+    if pc != len(code) - 2 or code[pc:] != [WORKSHOP_VARIABLE, 0]:
+        return None
+    before = {**(cfg.get("m_expression") or {}), "m_opcodes": [*code[:pc], 0]}
+    return workshop_variable(to_int(run({**cfg, "m_expression": before}, ctx)))
+
+
 # --- the bytecode --------------------------------------------------------------------------------
 
 
@@ -893,6 +925,13 @@ def run(cfg: dict, ctx: Context, *, max_steps: int = MAX_EXPRESSION_STEPS):
             elif op == 71:
                 t, b, a = to_float(stack.pop()), to_float(stack.pop()), to_float(stack.pop())
                 stack.append(f32(a + (b - a) * t))
+            elif op == WORKSHOP_VARIABLE:
+                # 1B81210 case 0x48: ToInt index limited to 0..127, then the entity below it. Without
+                # an entity component, or when the read fails, the result is int 0.
+                index = to_int(stack.pop())
+                entity = to_entity(stack.pop())
+                found = ctx.member(entity, workshop_variable(index)) if valid_entity(entity) else None
+                stack.append(0 if found is None else found)
             elif op in (29, 30, 39, 40, 41, 42, 43, 44, 46, 47, 48, 50, 51, 52, 57, 60, 61, 62, 66, 67, 68):
                 stack.append(_unary(op, stack.pop(), ctx))
             else:
@@ -1019,6 +1058,9 @@ def _decompile(code, dynamics, floats, configs, depth) -> str:
                 stack.append(f"parentEntity{arg}")
             elif op in (31, 32):
                 stack.append(f"{'globalDeref' if op == 32 else 'deref'}({stack.pop()})")
+            elif op == WORKSHOP_VARIABLE:
+                index = stack.pop()
+                stack.append(f"{stack.pop()}.workshop[{index}]")
             elif op in BINARY:
                 b, a = stack.pop(), stack.pop()
                 stack.append(f"({a} {BINARY[op]} {b})")

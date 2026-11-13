@@ -6,6 +6,16 @@ This log records tested changes and their acceptance status. Entries are grouped
 
 ### 2026-11-13
 
+#### Workshop action graphs and the Workshop variable opcode
+
+- The expression machine now runs opcode 72, the last case of the 104319 interpreter: it limits its index to 0..127 and reads that Workshop variable of the entity below it, the entity variable with the unsigned 16-bit identifier `index - 129`. A missing entity or variable gives int 0. `expr.workshop_lvalue` returns that identifier when an out var's expression ends with the opcode, and expression text shows it as `entity.workshop[index]`.
+- Added `ow174.workshop.actions` for the Workshop-only pieces of the client's action graphs. In build 104319 the catalog names a statescript graph for 211 of its 222 actions. The module handles the node that ends an action, the Abort, Loop and Skip nodes with their flags and count, the set-variable-on-entity node, and the parameter config var with its lower and upper limit. A rule engine receives them through `ActionHost`, a mix-in for the component's World. Without a host, strict execution stops at the first Workshop node.
+- Added `tools/extract_workshop_graphs.py`, which builds a local bundle of the action graphs and the graphs they start from DataTool's Workshop catalog and 01B XML dump. The bundle is game data and must be written outside the repository.
+- Twenty-eight public tests use synthetic graphs in the shapes the game data uses: the opcode's reads, limits and destinations, the node handlers with and without a host, parameter limits by type, assignments to the own and to another entity, and the bundle tool.
+- `tests/runtime/test_workshop_action_graphs.py` runs the real graphs when `ORPHEUS_WORKSHOP_GRAPHS` names a local bundle. It passed locally against a 104319 install: Set Global Variable assigns and limits the named Workshop variable, the six Abort and Loop variants and Abort If raise their flags, Skip passes its limited count, and Wait ends in the frame its time elapses with the graph's 0.016 s minimum.
+- [`docs/WORKSHOP_ACTION_GRAPHS.txt`](docs/WORKSHOP_ACTION_GRAPHS.txt) separates what was read in the client and the game data from what is inferred. `ActionHost` is this project's interface: the original server's handling of a finished action or a flow request was not read. There is no rule engine yet, nothing runs in a match, and original-client acceptance is pending.
+- Passed Ruff, 965 public Python tests and six dashboard and NPC-console JavaScript tests.
+
 #### Custom game and Workshop script messages
 
 - Added `ow174.workshop.messages`, the 22 messages and 5 enums of the client's embedded `CustomGame.proto` as protobuf classes built from a schema table: custom game options, rulesets, teams and hero settings, and Workshop scripts with their rules, targets, conditions, actions, operands, variables, subroutines, setting values, entities and extensions. Optional fields keep presence and repeated scalars stay unpacked, so a decoded message encodes back to its bytes. What a catalog index or value identifier means is not covered yet.

@@ -1,0 +1,98 @@
+Workshop action graphs — scoped evidence and model
+Target: original Overwatch 1.74.0.0.104319. Addresses below are module RVAs.
+
+What this covers
+The Workshop-only pieces that let the script runtime run a Workshop action's
+graph: the parameter config var, the node that ends an action, the Abort, Loop
+and Skip nodes, the set-variable-on-entity node and the Workshop variable
+opcode. It does not cover a rule engine, events, conditions, values, the
+lobby messages that carry a script, or any client-visible behaviour.
+
+Observations: game data
+From DataTool (OWLib 7afe5f52) run on a local install; the exports stay local.
+- The Workshop catalog (asset type 054, `list-workshop`) lists 222 actions.
+  211 name a 01B statescript graph. The 11 without one are If, Else If, Else,
+  While, End, For Global Variable, For Player Variable, Call Subroutine,
+  Start Rule, Break and Continue.
+- All 211 graph assets exist in the install (`extract-stu-type <dump> 01B`).
+  They start 29 further graphs between them; no chain is longer than three.
+- Every action graph contains STU_1E93FE1F (225 uses in 211 graphs). It has
+  no fields of its own and its output plug has no links.
+- STU_77B0987E is a config var with four config var fields: m_entity,
+  m_35547D6E, m_FDCA1FD0 and m_68CFF844. In every use m_35547D6E reads one
+  element of instance variable 18739. The other two hold constants that match
+  the catalog's limits for the parameter: Wait's time is 0.016 and 100000,
+  Skip's count 0 and 99, Apply Impulse's speed -70 and 70, a condition 0 and 1.
+- STU_ADAFD7FF and STU_99ED4486 each carry two scalar fields, m_F3733689 and
+  m_79252765. Abort and Loop have both 0. Abort If Condition Is True and Loop
+  If Condition Is True have the first set. Abort If Condition Is False and
+  Loop If Condition Is False have the second set. Abort If and Loop If use the
+  plain node behind a condition node.
+- STU_DC325C52 carries m_C337E584, a STU_77B0987E limited to 0 and 99.
+- STU_0BDBC7B2 has SetVar's fields (m_out_Var, m_value, m_index, m_key) and
+  m_entity. Across the 241 graphs it is used 50 times; m_index and m_key are
+  never set. m_entity is STU_A3DEF368 (36 uses) or a variable (14). m_out_Var
+  is a plain variable (22) or one of two expressions that end with opcode 72:
+  [14 0, 8 0, 6 0, 17, 72, 0] and [8 0, 8 1, 6 0, 17, 72, 0].
+- Expression opcode 72 appears 68 times in 10 graphs, all of the Set and
+  Modify Global/Player Variable family.
+
+Observations: client
+- The expression interpreter at 1B81210 has case 0x48 as its highest opcode;
+  the default case follows it. The case converts the top of the stack with
+  ToInt (F65260) and limits the result to 0..127, then pops it.
+  With a destination record and exactly one item left on the stack, it writes
+  the record: word +0 = 0, word +2 = index - 129, dword +16 = 0. The entity
+  left on the stack is not written into the record.
+  Otherwise it converts the remaining item to an entity (F64C20), asks the
+  world object (vtable +368) for that entity's component and the VM (vtable
+  +216) to read the variable into that stack slot. When there is no component
+  or the read reports failure, it writes int 0 into the slot.
+- The client registers STU_1E93FE1F as a 144-byte type (record 318C9E8,
+  registration 25E5A0, constructor 1572840). Its run-time behaviour in the
+  client was not read. The same holds for the other four node classes and
+  for STU_77B0987E's evaluator.
+
+Inferences
+- An entity has 128 Workshop variables. Variable `index` is the entity
+  variable with the unsigned 16-bit identifier `index - 129`: FF7F for 0,
+  FFFE for 127.
+- The two node flags mean "only while the rule's conditions hold" and "only
+  while they do not". This rests on the three authored variants alone.
+- Instance variable 18739 holds the running action's parameter list.
+- A plain m_out_Var on STU_0BDBC7B2 names a variable of the entity m_entity
+  gives, whatever scope flag the variable config carries.
+- An unset Workshop variable reads as int 0. The client's failed-read path
+  gives int 0; that an unset variable takes that path is assumed.
+
+Model
+- expr.run executes opcode 72 as above. expr.workshop_lvalue returns the
+  identifier an out var names when its expression ends with the opcode.
+- ow174.workshop.actions registers handlers for the five node classes and
+  defines ActionHost, a mix-in for the component's World. ActionHost answers
+  STU_77B0987E through World.native: it evaluates the list element, asks the
+  host for its value and applies the limits to numbers. The node handlers
+  report to the host: workshop_done, and workshop_flow with the kind, the two
+  flags and Skip's count.
+- STU_0BDBC7B2 follows SetVar: it assigns only when both the value and the
+  out var are present and uses int 0 for a failed evaluation. It writes the
+  instance's own entity directly and another entity through
+  World.entity_var_slot. m_index and m_key stop strict execution.
+- Without an ActionHost, strict execution stops at the first Workshop node.
+  Non-strict execution keeps the runtime's policy for a node without a model.
+
+Not established
+- What the original server did when an action finished or raised a flow
+  request. ActionHost is this project's interface, not a reconstruction.
+- How limits apply to a vector or another non-number. They pass unchanged.
+- Which entity an action graph runs on, and how variable 18739 is filled.
+- Any client-visible result. Original-client acceptance is pending.
+
+Checks
+- Public: tests/public/test_script_workshop_variable.py,
+  tests/public/test_workshop_actions.py and
+  tests/public/test_extract_workshop_graphs.py use synthetic graphs.
+- Local: tools/extract_workshop_graphs.py writes a bundle of the real graphs
+  outside the repository. tests/runtime/test_workshop_action_graphs.py runs
+  Set Global Variable, the Abort and Loop variants, Abort If, Skip and Wait
+  from that bundle when ORPHEUS_WORKSHOP_GRAPHS names it.
