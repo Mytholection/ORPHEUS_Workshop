@@ -117,3 +117,62 @@ class WorkshopActionGraphTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+CATALOG = os.environ.get("ORPHEUS_WORKSHOP_CATALOG")
+
+
+@unittest.skipUnless(BUNDLE and CATALOG, "requires the local 104319 Workshop graphs and catalog")
+class EngineOnRealGraphsTests(unittest.TestCase):
+    """The rule engine performing actions through the client's graphs (GraphWorld)."""
+
+    def setUp(self):
+        from ow174.workshop.graph_world import GraphWorld
+        from ow174.workshop.world import SimpleWorld
+
+        self.players = SimpleWorld()
+        self.one = self.players.add_player(0x80000101, team="Team 1", slot=0, hero="Tracer")
+        self.two = self.players.add_player(0x80000201, team="Team 2", slot=0, hero="Ana")
+        self.world = GraphWorld.from_files(Path(BUNDLE), Path(CATALOG), self.players)
+
+    def run_script(self, actions_list, frames=2):
+        from ow174.workshop.engine import Engine, Rule, Script
+
+        engine = Engine(Script(rules=(Rule("r", actions=tuple(actions_list)),)), self.world)
+        engine.run(frames)
+        return engine
+
+    def test_actions_finish_and_the_rule_continues(self):
+        from ow174.workshop.engine import Action, Value, number
+        from ow174.workshop.values import team, text
+
+        everyone = Value("All Players", (team("All Teams"),))
+        engine = self.run_script([
+            Action("Disable Built-In Game Mode Scoring"),
+            Action("Disable Death Spectate All Players", (everyone,)),
+            Action("Big Message", (everyone, text("Hello"))),
+            Action("Modify Player Score", (everyone, number(2))),
+            Action("Set Global Variable", ("A", number(1))),
+        ])
+        self.assertEqual(engine.globals[0], 1.0)
+        self.assertEqual(engine.executions, [])
+
+    def test_a_graph_that_keeps_states_stays_alive_after_it_finishes(self):
+        from ow174.workshop.engine import Action
+        from ow174.workshop.graph_world import GAME
+
+        self.run_script([Action("Disable Built-In Game Mode Scoring")])
+        index = self.world.action_graphs["Disable Built-In Game Mode Scoring"]
+        alive = list(self.world.components[GAME].instances.values())
+        # The action's instance and its per-target child for the game entity itself.
+        self.assertEqual([instance.graph.index for instance in alive], [index, index])
+        self.assertEqual([instance.parent is not None for instance in alive], [False, True])
+
+    def test_per_player_branches_run_on_each_players_component(self):
+        from ow174.workshop.engine import Action, Value
+        from ow174.workshop.values import team
+
+        everyone = Value("All Players", (team("All Teams"),))
+        self.run_script([Action("Disable Death Spectate All Players", (everyone,))])
+        for player in (self.one, self.two):
+            self.assertIs(self.world.components[player.id].entity_var(20763).value(), False)

@@ -40,7 +40,7 @@ from ow174.game.script import (
     play,
 )
 from ow174.game.script.expr import ENTITY, to_entity, to_int, valid_entity
-from ow174.game.script.runtime import Instance, handler
+from ow174.game.script.runtime import Instance, State, handler, state_class
 
 PARAMETERS = 18739  # the instance variable holding the action's parameter list
 PARAMETER = "STU_77B0987E"
@@ -49,6 +49,8 @@ ABORT = "STU_ADAFD7FF"
 LOOP = "STU_99ED4486"
 SKIP = "STU_DC325C52"
 SET_ENTITY_VARIABLE = "STU_0BDBC7B2"
+PER_TARGET = "STU_550D0C5C"
+PER_TARGET_BRANCH = "m_C41A9BE2"
 
 
 @dataclass(frozen=True)
@@ -70,6 +72,11 @@ class ActionHost:
         parameter asks again on every tick, so the answer may change while the action runs. `entity`
         is the entity the graph reads the parameter for, when it names one."""
         return parameter
+
+    def workshop_component(self, entity: int):
+        """The script component of an entity, for the per-target state; None when it has none. A world
+        that keeps components per entity (scene.SceneWorld) answers from them."""
+        return getattr(self, "script_components", {}).get(entity)
 
     def workshop_done(self, instance: Instance) -> None:
         """The action's graph reached its last node."""
@@ -205,6 +212,83 @@ def _assign(instance: Instance, entity: int, var: int, value) -> None:
 
 
 __all__ = [
-    "ABORT", "DONE", "LOOP", "PARAMETER", "PARAMETERS", "SET_ENTITY_VARIABLE", "SKIP",
-    "ActionHost", "Flow", "limit", "parameter",
-]
+    "ABORT", "DONE", "LOOP", "PARAMETER", "PARAMETERS", "PER_TARGET", "SET_ENTITY_VARIABLE", "SKIP",
+    "ActionHost", "Flow", "PerTarget", "limit", "parameter",
+]  # fmt: skip
+
+
+@state_class(PER_TARGET)
+class PerTarget(State):
+    """STU_550D0C5C: the branch behind m_C41A9BE2 once for each entity m_targets names.
+
+    Read in the game data: 124 uses in the action graphs; m_targets is the action's player list, the game
+    entity or an entity lookup. The branches read the action's variables through the parent-scope
+    opcodes (10 and 21, 384 times inside the branches and once outside) and write variables of the target
+    entity. So each target gets a child instance of the same graph, created on the target's own component
+    with this instance as its parent, and entered through the branch plug; this is how upstream's
+    PhaseScriptList runs its list items. The children follow the target list while the state is active
+    and end with it.
+
+    Not established: the meaning of the two flags m_4B7DF406 and m_DED58406, and the native order in which
+    children are created. The flags are not used here; the children are created in target order.
+    """
+
+    def __init__(self, *args) -> None:
+        super().__init__(*args)
+        self.children: list[tuple[int, Instance]] = []
+
+    def on_enter(self) -> None:
+        self.refresh()
+
+    def reentry(self) -> None:
+        self.refresh()
+
+    def dependency_changed(self) -> None:
+        self.refresh()
+
+    def refresh(self) -> None:
+        instance = self.instance
+        component = instance.component
+        targets = play.evaluate_value(instance, self.node.fields.get("m_targets"), initial=None, watcher=self)
+        wanted: list[int] = []
+        for item in targets if isinstance(targets, tuple) else (targets,):
+            entity = to_entity(item)
+            if valid_entity(entity) and entity not in wanted:
+                wanted.append(entity)
+        kept = [(entity, child) for entity, child in self.children if entity in wanted]
+        for entity, child in self.children:
+            if entity not in wanted:
+                child.component.destroy(child)
+        present = {entity for entity, _ in kept}
+        host = component.world
+        for entity in wanted:
+            if entity in present:
+                continue
+            if entity == component.entity:
+                target = component
+            else:
+                target = host.workshop_component(entity) if isinstance(host, ActionHost) else None
+            if target is None:
+                if component.strict:
+                    component.unsupported(instance, "per-target component", f"{entity:08X}", self.node)
+                continue
+            child = target.create(instance.graph, parent=instance, parent_state=self.index, init=False)
+            child.set_source_entity(instance.source_entity())
+            child.init(run_entries=False)
+            kept.append((entity, child))
+            child.follow(self.node, PER_TARGET_BRANCH)
+        order = {entity: position for position, entity in enumerate(wanted)}
+        self.children = sorted(kept, key=lambda pair: order[pair[0]])
+
+    def on_end(self, finished: bool) -> None:
+        for _, child in self.children:
+            child.component.destroy(child)
+        self.children.clear()
+
+
+# STU_1B2CD7F2: a state whose only field, m_vars, lists instance variables; each use in the action graphs
+# also lists the same variables' identifiers as remote sync variables. Big Message, Small Message, Set
+# Objective Description and the Set Ability Enabled family set those variables and then begin it, so it
+# is how the values reach the clients while the state is active. The server side needs nothing beyond the
+# base state; what the client does with it is not checked here.
+state_class("STU_1B2CD7F2")(State)

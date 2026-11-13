@@ -227,7 +227,15 @@ class InstanceContext(Context):
         return self._read(instance.find_var(scope, var, create=self.watcher is not None))
 
     def proxy_entity(self, levels: int):
-        return Entity(self.instance.component.entity)
+        """The entity of the instance `levels` parents up; the instance's own entity when the chain is
+        shorter. A parent normally shares the component, so this is usually the instance's own entity;
+        a Workshop per-target child runs on its target's component under a parent on another entity."""
+        instance = self.instance
+        for _ in range(levels):
+            if instance.parent is None:
+                break
+            instance = instance.parent
+        return Entity(instance.component.entity)
 
     def param(self, var: int):
         return self.parameter_result(var)[1]

@@ -6,6 +6,15 @@ This log records tested changes and their acceptance status. Entries are grouped
 
 ### 2026-11-13
 
+#### Workshop rule engine and graph-backed actions
+
+- Added `ow174.workshop.engine`, which runs Workshop scripts frame by frame: Ongoing - Global, Ongoing - Each Player with team, slot and hero filters, player events and subroutines; conditions; If, Else If, Else, While, For, Break and Continue; Wait with its three behaviours, Wait Until, Abort, Loop and Skip with their variants; Call Subroutine and Start Rule; 128 global and 128 per-player variables with every Set, Modify and At Index action; chases over time and at a rate; Log To Inspector. A rule that runs 10000 actions in one frame stops the script.
+- Added `ow174.workshop.values` with 159 of the catalog's 267 values: numbers, trigonometry, vectors, logic, arrays with Filtered, Sorted and Mapped Array, text, variables, event values, teams and heroes, player lists, distances and view angles, Workshop Settings and server load. The other 108 are questions about the game that a World answers.
+- Added `ow174.workshop.world` (the World interface and SimpleWorld, an in-memory game) and `ow174.workshop.graph_world`, which performs actions by running the client's action graphs in a `scene.SceneWorld` so their game messages and helper scripts reach players through the scene's routing.
+- Added the per-target state `STU_550D0C5C`: one child of the action's graph per target on the target's own component. `InstanceContext.proxy_entity` now walks the parent chain; with a parent on the same component nothing changes. `STU_1B2CD7F2` is registered as a base State from the game data.
+- In a local check against a 104319 install, 111 of the 184 graph-backed actions ran to their done node through the engine with placeholder parameters; the engine itself performs 38 more. Running to done does not show an action had its effect, and nothing runs in a match yet. [`docs/WORKSHOP_ENGINE.txt`](docs/WORKSHOP_ENGINE.txt) lists the behaviour taken from public documentation rather than the client.
+- Added public tests for the engine, the values, the per-target state and GraphWorld, and local-only tests that run the engine on the real graphs when `ORPHEUS_WORKSHOP_GRAPHS` and `ORPHEUS_WORKSHOP_CATALOG` are set.
+
 #### Workshop action graphs and the Workshop variable opcode
 
 - The expression machine now runs opcode 72, the last case of the 104319 interpreter: it limits its index to 0..127 and reads that Workshop variable of the entity below it, the entity variable with the unsigned 16-bit identifier `index - 129`. A missing entity or variable gives int 0. `expr.workshop_lvalue` returns that identifier when an out var's expression ends with the opcode, and expression text shows it as `entity.workshop[index]`.

@@ -96,3 +96,26 @@ Checks
   outside the repository. tests/runtime/test_workshop_action_graphs.py runs
   Set Global Variable, the Abort and Loop variants, Abort If, Skip and Wait
   from that bundle when ORPHEUS_WORKSHOP_GRAPHS names it.
+
+Per-target state (STU_550D0C5C) and the message-carrying state (STU_1B2CD7F2)
+- STU_550D0C5C appears 124 times in the action graphs. m_targets names the
+  action's players, the game entity or an entity lookup. Inside the branch
+  behind m_C41A9BE2, parent-scope opcodes (10 and 21) appear 384 times; outside
+  it once. The branches write variables of the target entity.
+- Model: one child instance of the same graph per target, created on the
+  target's own component with the action's instance as parent and entered
+  through m_C41A9BE2, as upstream's PhaseScriptList runs its items. The
+  children follow the target list and end with the state. The flags
+  m_4B7DF406 and m_DED58406 are not used; their meaning is not established.
+- InstanceContext.proxy_entity (opcode 21) now walks the parent chain, so a
+  child on another entity's component names its parent's entity. With a
+  parent on the same component the result is unchanged.
+- STU_1B2CD7F2 lists instance variables in m_vars and the same identifiers
+  as remote sync variables. Big Message, Small Message, Set Objective
+  Description and the Set Ability Enabled family set those variables and then
+  begin it. It is registered as a base State from that data; the client's
+  state factory record for it was not read.
+- GraphWorld names the entity itself for STU_69DBE90D and STU_0165541D
+  (entity-to-entity config vars) and the instance's entity for STU_8985E00A,
+  because a player is one entity in its scene. In upstream's server a player
+  has a controller and a body; which one these name is not established.
