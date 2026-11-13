@@ -14,7 +14,8 @@ This log records tested changes and their acceptance status. Entries are grouped
 - Twenty-eight public tests use synthetic graphs in the shapes the game data uses: the opcode's reads, limits and destinations, the node handlers with and without a host, parameter limits by type, assignments to the own and to another entity, and the bundle tool.
 - `tests/runtime/test_workshop_action_graphs.py` runs the real graphs when `ORPHEUS_WORKSHOP_GRAPHS` names a local bundle. It passed locally against a 104319 install: Set Global Variable assigns and limits the named Workshop variable, the six Abort and Loop variants and Abort If raise their flags, Skip passes its limited count, and Wait ends in the frame its time elapses with the graph's 0.016 s minimum.
 - [`docs/WORKSHOP_ACTION_GRAPHS.txt`](docs/WORKSHOP_ACTION_GRAPHS.txt) separates what was read in the client and the game data from what is inferred. `ActionHost` is this project's interface: the original server's handling of a finished action or a flow request was not read. There is no rule engine yet, nothing runs in a match, and original-client acceptance is pending.
-- Passed Ruff, 965 public Python tests and six dashboard and NPC-console JavaScript tests.
+- Added a shared behavior contract of sixteen synthetic cases, eight for the opcode and eight action graphs with fixed host events, entity variables and one diagnostic, and a Python consumer on the production runtime with external fixture-directory support.
+- Passed Ruff, 968 public Python tests and six dashboard and NPC-console JavaScript tests.
 
 #### Custom game and Workshop script messages
 

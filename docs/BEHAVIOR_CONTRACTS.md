@@ -39,6 +39,18 @@ The [Python consumer](../tests/public/test_custom_game_contracts.py) calls the p
 python -B -m unittest tests.public.test_custom_game_contracts
 ```
 
+## Workshop action graphs
+
+The [Workshop action graph fixture](../fixtures/behavior/workshop-action-graphs-v1.json) records sixteen synthetic cases of two kinds. Eight `expression` cases cover the Workshop variable opcode: a read, an index below and above the 128 variables, a fractional index, an unset variable, a missing entity, and an out var that is or is not a Workshop destination. Eight `action` cases are small graphs in the bundle's graph format, run for one frame with a parameter list: the node that ends an action with and without a host, an Abort and a Loop flag, a Skip count beyond its limit, an assignment to the Workshop variable a parameter names, a value beyond its limit, and a value below a float minimum.
+
+Values are typed as `null`, `boolean`, `integer`, `float` or `entity`. An expression case expects a typed value or the variable identifier of the destination, which is `null` when the out var is not one. An action case expects the host events in order and the owner's entity variables afterwards, or the diagnostic of the unsupported feature and class.
+
+The [Python consumer](../tests/public/test_workshop_action_contracts.py) runs every case on a fresh production `Component(strict=True)`. Its host is the production `ActionHost` with recording callbacks and returns each parameter unchanged. The fixture comes from the pinned Python implementation. The opcode's index limits, its identifier arithmetic and its int 0 for a failed read were read in the 104319 client; the node classes and their fields come from the game data. The host events are this project's own interface, so the contract establishes agreement between implementations, not what the original server did. [The evidence note](WORKSHOP_ACTION_GRAPHS.txt) lists what is inferred. Original-client acceptance remains pending.
+
+```powershell
+python -B -m unittest tests.public.test_workshop_action_contracts
+```
+
 ## Fixture fields
 
 | Field | Meaning |

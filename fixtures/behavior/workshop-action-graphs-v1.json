@@ -1,0 +1,1445 @@
+{
+  "schema_version": 1,
+  "case_id": "workshop-action-graphs.synthetic.v1",
+  "target_build": 104319,
+  "source": {
+    "revision": "7dac12980e3bad36169c4d04210ed5a5fa548e00",
+    "paths": [
+      "src/ow174/workshop/actions.py",
+      "src/ow174/game/script/expr.py"
+    ]
+  },
+  "evidence": "synthetic-reference",
+  "client_acceptance": "pending",
+  "input": {
+    "cases": [
+      {
+        "id": "variable-read",
+        "kind": "expression",
+        "as": "value",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              8,
+              0,
+              6,
+              0,
+              72,
+              0
+            ],
+            "m_dynamicVars": [
+              {
+                "$": "STUConfigVarDynamic",
+                "m_identifier": 50,
+                "m_60DB8F99": 0
+              }
+            ],
+            "m_D99EF254": [
+              3
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {
+            "65410": {
+              "kind": "integer",
+              "value": 42
+            }
+          },
+          "instance_variables": {
+            "50": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "variable-read-index-below-range",
+        "kind": "expression",
+        "as": "value",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              8,
+              0,
+              6,
+              0,
+              72,
+              0
+            ],
+            "m_dynamicVars": [
+              {
+                "$": "STUConfigVarDynamic",
+                "m_identifier": 50,
+                "m_60DB8F99": 0
+              }
+            ],
+            "m_D99EF254": [
+              -4
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {
+            "65407": {
+              "kind": "integer",
+              "value": 11
+            }
+          },
+          "instance_variables": {
+            "50": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "variable-read-index-above-range",
+        "kind": "expression",
+        "as": "value",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              8,
+              0,
+              6,
+              0,
+              72,
+              0
+            ],
+            "m_dynamicVars": [
+              {
+                "$": "STUConfigVarDynamic",
+                "m_identifier": 50,
+                "m_60DB8F99": 0
+              }
+            ],
+            "m_D99EF254": [
+              900
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {
+            "65534": {
+              "kind": "integer",
+              "value": 12
+            }
+          },
+          "instance_variables": {
+            "50": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "variable-read-index-rounds",
+        "kind": "expression",
+        "as": "value",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              8,
+              0,
+              6,
+              0,
+              72,
+              0
+            ],
+            "m_dynamicVars": [
+              {
+                "$": "STUConfigVarDynamic",
+                "m_identifier": 50,
+                "m_60DB8F99": 0
+              }
+            ],
+            "m_D99EF254": [
+              2.6
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {
+            "65410": {
+              "kind": "integer",
+              "value": 13
+            }
+          },
+          "instance_variables": {
+            "50": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "variable-read-unset",
+        "kind": "expression",
+        "as": "value",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              8,
+              0,
+              6,
+              0,
+              72,
+              0
+            ],
+            "m_dynamicVars": [
+              {
+                "$": "STUConfigVarDynamic",
+                "m_identifier": 50,
+                "m_60DB8F99": 0
+              }
+            ],
+            "m_D99EF254": [
+              9
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {},
+          "instance_variables": {
+            "50": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "variable-read-no-entity",
+        "kind": "expression",
+        "as": "value",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              8,
+              0,
+              6,
+              0,
+              72,
+              0
+            ],
+            "m_dynamicVars": [
+              {
+                "$": "STUConfigVarDynamic",
+                "m_identifier": 50,
+                "m_60DB8F99": 0
+              }
+            ],
+            "m_D99EF254": [
+              9
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {},
+          "instance_variables": {}
+        }
+      },
+      {
+        "id": "variable-destination",
+        "kind": "expression",
+        "as": "destination",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              8,
+              0,
+              6,
+              0,
+              72,
+              0
+            ],
+            "m_dynamicVars": [
+              {
+                "$": "STUConfigVarDynamic",
+                "m_identifier": 50,
+                "m_60DB8F99": 0
+              }
+            ],
+            "m_D99EF254": [
+              5
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {},
+          "instance_variables": {
+            "50": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "variable-destination-operand-byte",
+        "kind": "expression",
+        "as": "destination",
+        "config": {
+          "$": "STU_919FD47C",
+          "m_expression": {
+            "m_opcodes": [
+              6,
+              72,
+              0
+            ],
+            "m_D99EF254": [
+              0.0
+            ]
+          }
+        },
+        "context": {
+          "owner": 2147483905,
+          "entity_variables": {},
+          "instance_variables": {
+            "50": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-done",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 2,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_1E93FE1F",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": true,
+          "frames": 1,
+          "parameters": [],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-without-host",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 2,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_1E93FE1F",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": false,
+          "frames": 1,
+          "parameters": [],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-abort-if-conditions-true",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 3,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_ADAFD7FF",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      2,
+                      "m_inPlug"
+                    ]
+                  ]
+                },
+                "m_F3733689": 1,
+                "m_79252765": 0
+              }
+            },
+            {
+              "pos": 2,
+              "class": "STU_1E93FE1F",
+              "uid": 2,
+              "rid": 2,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": true,
+          "frames": 1,
+          "parameters": [],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-loop-if-conditions-false",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 3,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_99ED4486",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      2,
+                      "m_inPlug"
+                    ]
+                  ]
+                },
+                "m_F3733689": 0,
+                "m_79252765": 1
+              }
+            },
+            {
+              "pos": 2,
+              "class": "STU_1E93FE1F",
+              "uid": 2,
+              "rid": 2,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": true,
+          "frames": 1,
+          "parameters": [],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-skip-limited-count",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 3,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_DC325C52",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      2,
+                      "m_inPlug"
+                    ]
+                  ]
+                },
+                "m_C337E584": {
+                  "$": "STU_77B0987E",
+                  "m_35547D6E": {
+                    "$": "STU_919FD47C",
+                    "m_expression": {
+                      "m_opcodes": [
+                        8,
+                        0,
+                        6,
+                        0,
+                        17,
+                        0
+                      ],
+                      "m_dynamicVars": [
+                        {
+                          "$": "STUConfigVarDynamic",
+                          "m_identifier": 18739,
+                          "m_60DB8F99": 0
+                        }
+                      ],
+                      "m_D99EF254": [
+                        0
+                      ]
+                    }
+                  },
+                  "m_entity": null,
+                  "m_FDCA1FD0": {
+                    "$": "STUConfigVarInt",
+                    "m_value": 0
+                  },
+                  "m_68CFF844": {
+                    "$": "STUConfigVarInt",
+                    "m_value": 99
+                  }
+                }
+              }
+            },
+            {
+              "pos": 2,
+              "class": "STU_1E93FE1F",
+              "uid": 2,
+              "rid": 2,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": true,
+          "frames": 1,
+          "parameters": [
+            {
+              "kind": "integer",
+              "value": 250
+            }
+          ],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-set-workshop-variable",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 3,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_0BDBC7B2",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      2,
+                      "m_inPlug"
+                    ]
+                  ]
+                },
+                "m_entity": {
+                  "$": "STUConfigVarDynamic",
+                  "m_identifier": 40,
+                  "m_60DB8F99": 0
+                },
+                "m_out_Var": {
+                  "$": "STU_919FD47C",
+                  "m_expression": {
+                    "m_opcodes": [
+                      8,
+                      0,
+                      8,
+                      1,
+                      6,
+                      0,
+                      17,
+                      72,
+                      0
+                    ],
+                    "m_dynamicVars": [
+                      {
+                        "$": "STUConfigVarDynamic",
+                        "m_identifier": 40,
+                        "m_60DB8F99": 0
+                      },
+                      {
+                        "$": "STUConfigVarDynamic",
+                        "m_identifier": 18739,
+                        "m_60DB8F99": 0
+                      }
+                    ],
+                    "m_D99EF254": [
+                      0
+                    ]
+                  }
+                },
+                "m_value": {
+                  "$": "STU_77B0987E",
+                  "m_35547D6E": {
+                    "$": "STU_919FD47C",
+                    "m_expression": {
+                      "m_opcodes": [
+                        8,
+                        0,
+                        6,
+                        0,
+                        17,
+                        0
+                      ],
+                      "m_dynamicVars": [
+                        {
+                          "$": "STUConfigVarDynamic",
+                          "m_identifier": 18739,
+                          "m_60DB8F99": 0
+                        }
+                      ],
+                      "m_D99EF254": [
+                        1
+                      ]
+                    }
+                  },
+                  "m_entity": null,
+                  "m_FDCA1FD0": {
+                    "$": "STUConfigVarInt",
+                    "m_value": -10000000
+                  },
+                  "m_68CFF844": {
+                    "$": "STUConfigVarInt",
+                    "m_value": 10000000
+                  }
+                }
+              }
+            },
+            {
+              "pos": 2,
+              "class": "STU_1E93FE1F",
+              "uid": 2,
+              "rid": 2,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": true,
+          "frames": 1,
+          "parameters": [
+            {
+              "kind": "integer",
+              "value": 7
+            },
+            {
+              "kind": "float",
+              "value": 42.0
+            }
+          ],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-set-limited-value",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 3,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_0BDBC7B2",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      2,
+                      "m_inPlug"
+                    ]
+                  ]
+                },
+                "m_entity": {
+                  "$": "STUConfigVarDynamic",
+                  "m_identifier": 40,
+                  "m_60DB8F99": 0
+                },
+                "m_out_Var": {
+                  "$": "STU_919FD47C",
+                  "m_expression": {
+                    "m_opcodes": [
+                      8,
+                      0,
+                      8,
+                      1,
+                      6,
+                      0,
+                      17,
+                      72,
+                      0
+                    ],
+                    "m_dynamicVars": [
+                      {
+                        "$": "STUConfigVarDynamic",
+                        "m_identifier": 40,
+                        "m_60DB8F99": 0
+                      },
+                      {
+                        "$": "STUConfigVarDynamic",
+                        "m_identifier": 18739,
+                        "m_60DB8F99": 0
+                      }
+                    ],
+                    "m_D99EF254": [
+                      0
+                    ]
+                  }
+                },
+                "m_value": {
+                  "$": "STU_77B0987E",
+                  "m_35547D6E": {
+                    "$": "STU_919FD47C",
+                    "m_expression": {
+                      "m_opcodes": [
+                        8,
+                        0,
+                        6,
+                        0,
+                        17,
+                        0
+                      ],
+                      "m_dynamicVars": [
+                        {
+                          "$": "STUConfigVarDynamic",
+                          "m_identifier": 18739,
+                          "m_60DB8F99": 0
+                        }
+                      ],
+                      "m_D99EF254": [
+                        1
+                      ]
+                    }
+                  },
+                  "m_entity": null,
+                  "m_FDCA1FD0": {
+                    "$": "STUConfigVarInt",
+                    "m_value": -10000000
+                  },
+                  "m_68CFF844": {
+                    "$": "STUConfigVarInt",
+                    "m_value": 10000000
+                  }
+                }
+              }
+            },
+            {
+              "pos": 2,
+              "class": "STU_1E93FE1F",
+              "uid": 2,
+              "rid": 2,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": true,
+          "frames": 1,
+          "parameters": [
+            {
+              "kind": "integer",
+              "value": 0
+            },
+            {
+              "kind": "float",
+              "value": 2000000000.0
+            }
+          ],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      },
+      {
+        "id": "action-parameter-below-minimum",
+        "kind": "action",
+        "graph": {
+          "index": 1,
+          "header": {},
+          "fields": {},
+          "items": 3,
+          "containers": {},
+          "nodes": [
+            {
+              "pos": 0,
+              "class": "STUStatescriptEntry",
+              "uid": 0,
+              "rid": 0,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      1,
+                      "m_inPlug"
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "pos": 1,
+              "class": "STU_0BDBC7B2",
+              "uid": 1,
+              "rid": 1,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": [
+                    [
+                      2,
+                      "m_inPlug"
+                    ]
+                  ]
+                },
+                "m_entity": {
+                  "$": "STUConfigVarDynamic",
+                  "m_identifier": 40,
+                  "m_60DB8F99": 0
+                },
+                "m_out_Var": {
+                  "$": "STUConfigVarDynamic",
+                  "m_identifier": 321,
+                  "m_60DB8F99": 1
+                },
+                "m_value": {
+                  "$": "STU_77B0987E",
+                  "m_35547D6E": {
+                    "$": "STU_919FD47C",
+                    "m_expression": {
+                      "m_opcodes": [
+                        8,
+                        0,
+                        6,
+                        0,
+                        17,
+                        0
+                      ],
+                      "m_dynamicVars": [
+                        {
+                          "$": "STUConfigVarDynamic",
+                          "m_identifier": 18739,
+                          "m_60DB8F99": 0
+                        }
+                      ],
+                      "m_D99EF254": [
+                        0
+                      ]
+                    }
+                  },
+                  "m_entity": null,
+                  "m_FDCA1FD0": {
+                    "$": "STUConfigVarFloat",
+                    "m_value": 0.016
+                  },
+                  "m_68CFF844": {
+                    "$": "STUConfigVarInt",
+                    "m_value": 100000
+                  }
+                }
+              }
+            },
+            {
+              "pos": 2,
+              "class": "STU_1E93FE1F",
+              "uid": 2,
+              "rid": 2,
+              "remote": -1,
+              "state": null,
+              "client_only": false,
+              "server_only": false,
+              "fields": {
+                "m_2BBEEAB8": false,
+                "m_ADEB6E05": true,
+                "m_outPlug": {
+                  "$": "STUStatescriptOutputPlug",
+                  "links": []
+                }
+              }
+            }
+          ],
+          "unknown_nodes": [],
+          "states": [],
+          "entries": [
+            0
+          ],
+          "remote": [],
+          "sync_vars": []
+        },
+        "context": {
+          "owner": 2147483905,
+          "host": true,
+          "frames": 1,
+          "parameters": [
+            {
+              "kind": "float",
+              "value": 0.001
+            }
+          ],
+          "instance_variables": {
+            "40": {
+              "kind": "entity",
+              "value": 2147483905
+            }
+          }
+        }
+      }
+    ]
+  },
+  "expected": {
+    "variable-read": {
+      "value": {
+        "kind": "integer",
+        "value": 42
+      }
+    },
+    "variable-read-index-below-range": {
+      "value": {
+        "kind": "integer",
+        "value": 11
+      }
+    },
+    "variable-read-index-above-range": {
+      "value": {
+        "kind": "integer",
+        "value": 12
+      }
+    },
+    "variable-read-index-rounds": {
+      "value": {
+        "kind": "integer",
+        "value": 13
+      }
+    },
+    "variable-read-unset": {
+      "value": {
+        "kind": "integer",
+        "value": 0
+      }
+    },
+    "variable-read-no-entity": {
+      "value": {
+        "kind": "integer",
+        "value": 0
+      }
+    },
+    "variable-destination": {
+      "variable": 65412
+    },
+    "variable-destination-operand-byte": {
+      "variable": null
+    },
+    "action-done": {
+      "events": [
+        {
+          "event": "done"
+        }
+      ],
+      "entity_variables": {}
+    },
+    "action-without-host": {
+      "error": {
+        "feature": "workshop action host",
+        "class": "STU_1E93FE1F"
+      }
+    },
+    "action-abort-if-conditions-true": {
+      "events": [
+        {
+          "event": "flow",
+          "kind": "abort",
+          "if_true": true,
+          "if_false": false,
+          "count": 0
+        },
+        {
+          "event": "done"
+        }
+      ],
+      "entity_variables": {}
+    },
+    "action-loop-if-conditions-false": {
+      "events": [
+        {
+          "event": "flow",
+          "kind": "loop",
+          "if_true": false,
+          "if_false": true,
+          "count": 0
+        },
+        {
+          "event": "done"
+        }
+      ],
+      "entity_variables": {}
+    },
+    "action-skip-limited-count": {
+      "events": [
+        {
+          "event": "flow",
+          "kind": "skip",
+          "if_true": false,
+          "if_false": false,
+          "count": 99
+        },
+        {
+          "event": "done"
+        }
+      ],
+      "entity_variables": {}
+    },
+    "action-set-workshop-variable": {
+      "events": [
+        {
+          "event": "done"
+        }
+      ],
+      "entity_variables": {
+        "65414": {
+          "kind": "float",
+          "value": 42.0
+        }
+      }
+    },
+    "action-set-limited-value": {
+      "events": [
+        {
+          "event": "done"
+        }
+      ],
+      "entity_variables": {
+        "65407": {
+          "kind": "float",
+          "value": 10000000.0
+        }
+      }
+    },
+    "action-parameter-below-minimum": {
+      "events": [
+        {
+          "event": "done"
+        }
+      ],
+      "entity_variables": {
+        "321": {
+          "kind": "float",
+          "value": 0.01600000075995922
+        }
+      }
+    }
+  }
+}
