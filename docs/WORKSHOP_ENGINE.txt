@@ -1,0 +1,86 @@
+Workshop rule engine — model, sources and open choices
+Target: original Overwatch 1.74.0.0.104319.
+
+What this covers
+ow174.workshop.engine runs Workshop scripts: rules with events, player
+filters and conditions; actions with flow control, waits, subroutines,
+variables and chases. ow174.workshop.values computes the catalog's values.
+ow174.workshop.world defines what the engine asks of the game and an
+in-memory game for tests. ow174.workshop.graph_world performs actions by
+running the client's own action graphs in a scene.SceneWorld. Nothing here
+runs in a match yet, and no part was compared with a retail server.
+
+Sources
+- The catalog's names, parameter lists and descriptions (DataTool
+  list-workshop on a local install; local data, not in the repository).
+- The client's value model where the Workshop shares it: equality within
+  1.1920929e-5, null equal to 0, an array as its first element where one
+  value is needed (expr.py).
+- The action graphs and their Workshop nodes (WORKSHOP_ACTION_GRAPHS.txt).
+- The Workshop's public documentation and in-game descriptions for
+  everything else. Those choices are listed below.
+
+Engine
+- A frame is 16 ms. In each frame, chases move first; then, rule by rule in
+  script order, a rule may start and its running instances continue until
+  they wait, wait for the world, or end. A later rule sees what an earlier
+  one did in the same frame. A rule a Start Rule begins runs in the same
+  frame when it comes after the caller.
+- Ongoing - Global runs once per game, Ongoing - Each Player once per
+  matching player. Player events start one instance per event. Subroutine
+  rules run only through Call Subroutine and Start Rule.
+- Flow control (If, Else If, Else, While, For Global/Player Variable,
+  Break, Continue, End), Wait, Wait Until, Abort, Loop and Skip with their
+  variants, the variable and chase actions, Call Subroutine, Start Rule and
+  Log To Inspector are the engine's own. Every other action is the
+  world's. An action whose result is not done holds its rule.
+- Variables: 128 global and 128 per player, unset reading as 0. A variable
+  parameter is an index, a script name or a default name (A..Z, AA..DX).
+- A rule that runs 10000 actions in one frame stops the script with a
+  WorkshopError. Our limit; the original's server-load limit is not known.
+- Server Load, Average and Peak are our own measure: the share of that
+  action budget used per frame, over the last 60 frames.
+
+Open choices (not established; each is named in the code)
+- An ongoing rule starts when its conditions hold and they have not held
+  since it last started; conditions seen false while it runs re-arm it.
+- A second player event while the rule still runs for that player is
+  ignored.
+- Abort, also inside a called subroutine, ends the whole rule.
+- Loop goes back to the first action of the current action list.
+- For: the start is evaluated once; stop and step at every check.
+- Wait rounds to milliseconds with a 16 ms minimum and resumes in the first
+  frame at or after its end. Restart When True restarts when the conditions
+  go from false to true during the wait.
+- Append To Array on a number (an unset variable is 0) keeps the number as
+  the first element. Set At Index on 0 or null starts an empty array.
+- Truth: null, false, 0, the zero vector, an empty string and an empty
+  array are false; an array is its first element.
+- Arithmetic: Add and Subtract with a vector or player treat a player as its
+  position and a number as that number on every axis; division and modulo
+  by 0 give 0; a power without a real result gives 0; Modulo keeps the
+  sign of the dividend.
+- Directions: Left +X, Up +Y, Forward +Z; horizontal angle 0 faces forward
+  and 90 left; vertical 90 faces down. World/Local Vector Of use only the
+  horizontal facing. Is In View Angle compares with half the angle.
+- Custom String replaces {0}, {1} and {2} with our own text form of each
+  value (numbers without trailing zeros, vectors with two decimals).
+- The hero roster and roles are the 32 heroes of build 104319 in the game's
+  own hero order.
+
+Coverage (local check against the 104319 catalog)
+- Values: 159 of 267 computed by the engine; the other 108 are questions
+  about the game (health, statuses, objectives, buttons, ray casts, created
+  entities) that the World answers. SimpleWorld answers a small subset.
+- Actions: 38 of 222 performed by the engine. Of the other 184, 111 ran to
+  their done node through GraphWorld with placeholder parameters in a scene
+  of two players; the rest stop at services a real match provides (health,
+  entity creation, team indices, routed messages) or at node types not
+  implemented yet. Running to done does not show an action had its effect.
+
+Checks
+tests/public/test_workshop_engine.py, test_workshop_values.py,
+test_workshop_graph_world.py and test_workshop_per_target.py use synthetic
+scripts and graphs. tests/runtime/test_workshop_action_graphs.py also runs
+the engine on the real graphs when ORPHEUS_WORKSHOP_GRAPHS and
+ORPHEUS_WORKSHOP_CATALOG name local files.
