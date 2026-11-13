@@ -29,6 +29,16 @@ python -S -B -m unittest tests.public.test_world_query_contracts
 
 This source-only check needs neither installed dependencies nor prepared runtime data. It uses the same `ORPHEUS_BEHAVIOR_FIXTURES` override as the framing consumer. The contract covers query results and error categories only: Python's strict host faults and stops the component, while Rust records an expression issue and declines that evaluation. It does not establish equivalent component recovery, event order, live foreign-variable watchers or client behavior. Original-client acceptance remains pending.
 
+## Custom game messages
+
+The [custom game message fixture](../fixtures/behavior/custom-game-messages-v1.json) records seven synthetic cases for the client's `CustomGame.proto` messages: a hand-written Workshop action, unpacked repeated operands, a setting whose zero and false values are present, an empty message, a whole persisted custom game with a script, an input carrying a field the schema does not have, and a truncated input. Each input names its message and gives its bytes. The expected result is the decoded fields by their schema names, where an absent field has no key and 64-bit identifiers are JSON integers, or the error category `damaged`. `encoded_hex` is given where re-encoding is defined. The unknown-field case omits it because an encoder may keep or drop fields outside the schema.
+
+The [Python consumer](../tests/public/test_custom_game_contracts.py) calls the production `decode`, `to_plain` and `encode` of `ow174.workshop.messages`. The fixture comes from the pinned Python implementation. Its largest case also decodes cleanly with the descriptor extracted from a local 104319 client, which is not published. The contract establishes wire agreement for these messages. It does not cover what a catalog index or value identifier means, the lobby messages that carry a custom game, or original-client behavior, whose acceptance remains pending.
+
+```powershell
+python -B -m unittest tests.public.test_custom_game_contracts
+```
+
 ## Fixture fields
 
 | Field | Meaning |

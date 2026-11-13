@@ -11,8 +11,9 @@ This log records tested changes and their acceptance status. Entries are grouped
 - Added `ow174.workshop.messages`, the 22 messages and 5 enums of the client's embedded `CustomGame.proto` as protobuf classes built from a schema table: custom game options, rulesets, teams and hero settings, and Workshop scripts with their rules, targets, conditions, actions, operands, variables, subroutines, setting values, entities and extensions. Optional fields keep presence and repeated scalars stay unpacked, so a decoded message encodes back to its bytes. What a catalog index or value identifier means is not covered yet.
 - Added `tools/extract_custom_game_descriptor.py`, which cuts the serialized descriptor out of a local 104319 client. Its output is client data and stays outside the repository. `tests/runtime/test_custom_game_descriptor.py` compares the schema table with that descriptor when `ORPHEUS_CUSTOM_GAME_DESCRIPTOR` names it; it passed locally against the 104319 client for all 110 fields and every enum value.
 - Thirteen public tests cover the schema shape, hand-written wire bytes, unpacked repeated scalars, presence of zero values, a whole custom game round trip, unknown and damaged input, and the extraction tool with a synthetic descriptor.
+- Added a shared behavior contract of seven synthetic cases with fixed decoded fields, encoded bytes and one error category, and a Python consumer on the production decoder and encoder with external fixture-directory support. Its largest case also decodes with the descriptor extracted from a local 104319 client.
 - No server path reads these messages yet. The lobby messages that carry them and original-client behavior are unverified.
-- Passed Ruff, 934 public Python tests and six dashboard and NPC-console JavaScript tests.
+- Passed Ruff, 937 public Python tests and six dashboard and NPC-console JavaScript tests.
 
 ### 2026-11-12
 

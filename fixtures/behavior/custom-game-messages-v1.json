@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "case_id": "custom-game-messages.synthetic-wire.v1",
+  "target_build": 104319,
+  "source": {
+    "revision": "44fb8545b07dd89e4f562838228e2dfdb31508c4",
+    "paths": [
+      "src/ow174/workshop/messages.py"
+    ]
+  },
+  "evidence": "synthetic-reference",
+  "client_acceptance": "pending",
+  "input": {
+    "cases": [
+      {
+        "id": "action-hand-written",
+        "message": "PBCGLogicAction",
+        "wire_hex": "0805180122026869"
+      },
+      {
+        "id": "param-unpacked-repeated",
+        "message": "PBCGLogicParam",
+        "wire_hex": "3007380138ac02"
+      },
+      {
+        "id": "var-pair-zero-presence",
+        "message": "CGGameRulesetVarValuePair",
+        "wire_hex": "0800100020002d00000000"
+      },
+      {
+        "id": "var-pair-empty",
+        "message": "CGGameRulesetVarValuePair",
+        "wire_hex": ""
+      },
+      {
+        "id": "persisted-custom-game",
+        "message": "PersistedCGSettings",
+        "wire_hex": "080312d7030a0608021003180212060803100120021a0708880d1000180022e80108201a0708012d0000c03f2a2308011006180120af828080808080f0022a110a05080910c80110af828080808080f00230013a9c0112460a0408011002120c080110041a0228111a0208031a1e08091213282838013802420548656c6c6f4a01614a0162220567726565741a0408021801220a66697273742072756c65120228011a130801120f0d0000803f15000020401d000040c022070a0573636f72652a070a056c6976657332070a0572657365743a1a0a05537065656410021a050d0000164320af828080808080f00240034005421572756c65282266697273742072756c652229207b7d3a0974657374206d6f6465429c0112460a0408011002120c080110041a0228111a0208031a1e08091213282838013802420548656c6c6f4a01614a0162220567726565741a0408021801220a66697273742072756c65120228011a130801120f0d0000803f15000020401d000040c022070a0573636f72652a070a056c6976657332070a0572657365743a1a0a05537065656410021a050d0000164320af828080808080f0024003400568ffffffffffffffffff0172150a0454657374120541424344451a0408011002500a7a056c6f63616c"
+      },
+      {
+        "id": "options-unknown-field",
+        "message": "CGOptions",
+        "wire_hex": "60013a0178"
+      },
+      {
+        "id": "options-damaged",
+        "message": "CGOptions",
+        "wire_hex": "3a0578"
+      }
+    ]
+  },
+  "expected": {
+    "action-hand-written": {
+      "fields": {
+        "index": 5,
+        "disabled": true,
+        "comment": "hi"
+      },
+      "encoded_hex": "0805180122026869"
+    },
+    "param-unpacked-repeated": {
+      "fields": {
+        "unusedValueParams": [
+          7
+        ],
+        "valueParams": [
+          1,
+          300
+        ]
+      },
+      "encoded_hex": "3007380138ac02"
+    },
+    "var-pair-zero-presence": {
+      "fields": {
+        "varGUID": 0,
+        "intValue": 0,
+        "boolValue": false,
+        "floatValue": 0.0
+      },
+      "encoded_hex": "0800100020002d00000000"
+    },
+    "var-pair-empty": {
+      "fields": {},
+      "encoded_hex": ""
+    },
+    "persisted-custom-game": {
+      "fields": {
+        "version": 3,
+        "options": {
+          "mapRules": {
+            "nextMapRule": 2,
+            "mapChangeRule": 3,
+            "backToLobbyRule": 2
+          },
+          "teamRules": {
+            "performTeamShuffleRule": 3,
+            "teamShuffleRule": 1,
+            "maxObservers": 2
+          },
+          "rulesetMapPairs": [
+            {
+              "mapGUID": 1672,
+              "savedGameIndex": 0,
+              "isRulesetCleared": false
+            }
+          ],
+          "savedGameRulesets": [
+            {
+              "gameModeGUID": 32,
+              "masterVars": [
+                {
+                  "varGUID": 1,
+                  "floatValue": 1.5
+                }
+              ],
+              "teams": [
+                {
+                  "teamIndex": 1,
+                  "numTeamMembers": 6,
+                  "heroesArrayIsWhitelist": true,
+                  "heroGUIDs": [
+                    207165582859043119
+                  ],
+                  "bodyVars": [
+                    {
+                      "bodyVars": [
+                        {
+                          "varGUID": 9,
+                          "intValue": 200
+                        }
+                      ],
+                      "heroGUID": 207165582859043119
+                    }
+                  ]
+                }
+              ],
+              "flags": 1,
+              "logic": {
+                "entries": [
+                  {
+                    "target": {
+                      "type": 1,
+                      "team": 2
+                    },
+                    "conditions": [
+                      {
+                        "invert": true,
+                        "index": 4,
+                        "params": [
+                          {
+                            "valueIdentifier": 17
+                          },
+                          {
+                            "enumVal": 3
+                          }
+                        ]
+                      }
+                    ],
+                    "actions": [
+                      {
+                        "index": 9,
+                        "params": [
+                          {
+                            "valueIdentifier": 40,
+                            "valueParams": [
+                              1,
+                              2
+                            ],
+                            "valueStr": "Hello",
+                            "valueStrs": [
+                              "a",
+                              "b"
+                            ]
+                          }
+                        ],
+                        "comment": "greet"
+                      },
+                      {
+                        "index": 2,
+                        "disabled": true
+                      }
+                    ],
+                    "comment": "first rule"
+                  },
+                  {
+                    "disabled": true
+                  }
+                ],
+                "entities": [
+                  {
+                    "type": 1,
+                    "pos": {
+                      "x": 1.0,
+                      "y": 2.5,
+                      "z": -3.0
+                    }
+                  }
+                ],
+                "globalVariables": [
+                  {
+                    "name": "score"
+                  }
+                ],
+                "playerVariables": [
+                  {
+                    "name": "lives"
+                  }
+                ],
+                "subroutines": [
+                  {
+                    "name": "reset"
+                  }
+                ],
+                "userSettingInsts": [
+                  {
+                    "name": "Speed",
+                    "type": 2,
+                    "val": {
+                      "x": 150.0
+                    },
+                    "heroGUIDs": [
+                      207165582859043119
+                    ]
+                  }
+                ],
+                "extensions": [
+                  3,
+                  5
+                ]
+              },
+              "logicStr": "rule(\"first rule\") {}"
+            }
+          ],
+          "description": "test mode",
+          "rootLogic": {
+            "entries": [
+              {
+                "target": {
+                  "type": 1,
+                  "team": 2
+                },
+                "conditions": [
+                  {
+                    "invert": true,
+                    "index": 4,
+                    "params": [
+                      {
+                        "valueIdentifier": 17
+                      },
+                      {
+                        "enumVal": 3
+                      }
+                    ]
+                  }
+                ],
+                "actions": [
+                  {
+                    "index": 9,
+                    "params": [
+                      {
+                        "valueIdentifier": 40,
+                        "valueParams": [
+                          1,
+                          2
+                        ],
+                        "valueStr": "Hello",
+                        "valueStrs": [
+                          "a",
+                          "b"
+                        ]
+                      }
+                    ],
+                    "comment": "greet"
+                  },
+                  {
+                    "index": 2,
+                    "disabled": true
+                  }
+                ],
+                "comment": "first rule"
+              },
+              {
+                "disabled": true
+              }
+            ],
+            "entities": [
+              {
+                "type": 1,
+                "pos": {
+                  "x": 1.0,
+                  "y": 2.5,
+                  "z": -3.0
+                }
+              }
+            ],
+            "globalVariables": [
+              {
+                "name": "score"
+              }
+            ],
+            "playerVariables": [
+              {
+                "name": "lives"
+              }
+            ],
+            "subroutines": [
+              {
+                "name": "reset"
+              }
+            ],
+            "userSettingInsts": [
+              {
+                "name": "Speed",
+                "type": 2,
+                "val": {
+                  "x": 150.0
+                },
+                "heroGUIDs": [
+                  207165582859043119
+                ]
+              }
+            ],
+            "extensions": [
+              3,
+              5
+            ]
+          },
+          "minimumLatencyNS": -1,
+          "linkIdentity": {
+            "gameTitle": "Test",
+            "code": "ABCDE",
+            "creatorID": {
+              "src": 1,
+              "seq": 2
+            },
+            "level": 10
+          },
+          "datacenterOverrideStr": "local"
+        }
+      },
+      "encoded_hex": "080312d7030a0608021003180212060803100120021a0708880d1000180022e80108201a0708012d0000c03f2a2308011006180120af828080808080f0022a110a05080910c80110af828080808080f00230013a9c0112460a0408011002120c080110041a0228111a0208031a1e08091213282838013802420548656c6c6f4a01614a0162220567726565741a0408021801220a66697273742072756c65120228011a130801120f0d0000803f15000020401d000040c022070a0573636f72652a070a056c6976657332070a0572657365743a1a0a05537065656410021a050d0000164320af828080808080f00240034005421572756c65282266697273742072756c652229207b7d3a0974657374206d6f6465429c0112460a0408011002120c080110041a0228111a0208031a1e08091213282838013802420548656c6c6f4a01614a0162220567726565741a0408021801220a66697273742072756c65120228011a130801120f0d0000803f15000020401d000040c022070a0573636f72652a070a056c6976657332070a0572657365743a1a0a05537065656410021a050d0000164320af828080808080f0024003400568ffffffffffffffffff0172150a0454657374120541424344451a0408011002500a7a056c6f63616c"
+    },
+    "options-unknown-field": {
+      "fields": {
+        "description": "x"
+      }
+    },
+    "options-damaged": {
+      "error": "damaged"
+    }
+  }
+}
